@@ -1,0 +1,92 @@
+.title-subheading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    padding: 2rem;
+}
+
+.title-div {
+    border: 12px solid;
+    padding: 0.2rem 3rem 0.9rem;
+}
+
+.sub-title {
+    font-size: 45px;
+    font-weight: 300;
+    font-family: Bradley Hand, cursive;
+}
+
+.title {
+    font-size: 80px;
+    margin: 0%;
+    padding: 0%;
+}
+
+
+.action-div {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+
+
+@media (max-width: 480px) {
+    .title-subheading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+        padding: 1rem;
+        margin-top: 45%;
+    }
+
+    .title-div {
+        border: 12px solid;
+        padding: 0rem 1.5rem 0.3rem;
+    }
+
+    .title {
+        font-size: 40px;
+        margin: 0%;
+        padding: 0%;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .title-subheading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+        padding: 2rem;
+
+    }
+
+    .title-div {
+        border: 12px solid;
+        padding: 0.2rem 3rem 0.9rem;
+    }
+
+    .title {
+        font-size: 80px;
+        margin: 0%;
+        padding: 0%;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .title {
+        font-size: 80px;
+    }
+}
+
+@media (min-width: 1025px) {
+    .title {
+        font-size: 80px;
+    }
+}
