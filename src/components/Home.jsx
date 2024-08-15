@@ -4,25 +4,60 @@ import qs from 'qs'
 import Button from './Button';
 import Input from './Input';
 import './Home.css';
-
+const ENDPOINT = 'ws://localhost:3000';
 
 
 const Home = () => {
 
     const [state , setState] = React.useState("home");
+    const [socket, setSocket] = React.useState(null);
     const [roomCode, setRoomCode] = React.useState('@#$%$^');
+    const [gameStart, setGameStart] = React.useState(false);
+    const [isMyTurn, setIsMyTurn] = React.useState(false);
+
 
     const handleJoinRoom = () => {
         setState("join");
     }
     
     const handleCreateRoom = () => {
+        socket.emit('CreateRoom');
+        console.log('Create Room client');
+        
         setState("create");
     }
 
     const handleInput = (e) => {
+        if(e.target.value.length > 16) {
+            return;
+        }
         setRoomCode(e.target.value);
     }
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(roomCode);
+    }
+
+
+    React.useEffect(()=>{
+        const socket = io(ENDPOINT);
+        setSocket(socket);
+        console.log('Socket Created');
+        
+        socket.on('RoomCode', (roomCode) => {
+            setRoomCode(roomCode);
+        });
+
+        socket.on('GameStart', () => {
+            setGameStart(true);
+        });
+
+        return () => {
+            socket.disconnect();
+        }
+    },[])
+
+
 
 
     return (
@@ -42,12 +77,12 @@ const Home = () => {
             </div>  : null}
 
             {state === "join" ? <div className='action-div'>
-                <Input type="text" placeholder="Enter Room Code" value={roomCode} onChange={handleInput}  />
-                <Button id="joinRoom" name="Join Room" />
+                <Input type="text" className = "joinRoomInput" placeholder="Enter Room Code" value={roomCode} onChange={handleInput}  />
+                <Button id="joinRoom"  name="Join Room" />
             </div> : null} 
             {state === "create" ? <div className='action-div'>
-                <h2>{`${roomCode}`}</h2>
-                <Button id="copy" name="Copy" />
+                <h2 className='createRoomCode'>{`${roomCode}`}</h2>
+                <Button id="copy" name="Copy" onClick={handleCopy}/>
             </div> : null} 
 
 

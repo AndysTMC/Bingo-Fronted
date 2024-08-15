@@ -1,3 +1,6 @@
+.main{
+    opacity: 1;
+}
 .title-subheading {
     display: flex;
     justify-content: center;
@@ -5,21 +8,22 @@
     flex-direction: column;
     gap: 10px;
     padding: 2rem;
+    
 }
 
 .title-div {
     border: 12px solid;
-    padding: 0.2rem 3rem 0.9rem;
+    padding: 0.2rem 6rem 0.9rem;
 }
 
 .sub-title {
-    font-size: 45px;
+    font-size: 40px;
     font-weight: 300;
     font-family: Bradley Hand, cursive;
 }
 
 .title {
-    font-size: 80px;
+    font-size: 0px;
     margin: 0%;
     padding: 0%;
 }
@@ -28,7 +32,46 @@
 .action-div {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 3rem;
+}
+
+.joinRoomInput{
+    font-family: inherit;
+    min-width: 300px;
+    text-align: center;
+    width: 30%;
+    border: 0;
+    border-bottom: 2px solid black;
+    outline: 0;
+    font-size: 1.3rem;
+    color: black;
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+}
+
+.joinRoomInput:focus {
+    border-bottom-width: 5px;
+    transition: border-bottom-width 0.2s;
+}
+.joinRoomInput:hover {
+    border-bottom-width: 5px;
+    transition: border-bottom-width 0.2s;
+}
+
+
+.createRoomCode{
+    background-color: black;
+    /* padding-block: 0.5rem;
+    padding-inline: 1.5rem; */
+    padding: 0.7rem 1.7rem;
+    border-radius: 25px;
+    color: white;
+    text-align: center;
+    ;
+    
 }
 
 
@@ -77,6 +120,7 @@
         margin: 0%;
         padding: 0%;
     }
+
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
@@ -87,6 +131,8 @@
 
 @media (min-width: 1025px) {
     .title {
-        font-size: 80px;
+        font-size:100px;
     }
+
+    
 }

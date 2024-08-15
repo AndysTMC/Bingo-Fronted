@@ -1,13 +1,9 @@
 import React from 'react';
 import './input.css';
 
-function Input({ type, placeholder, value, onChange }) {
+function Input({ type, placeholder,className, value, onChange }) {
     return (
-
-        <div className="oddboxinner">
-            <input className="evenboxinner" type={type} value={value} placeholder={placeholder} onChange={onChange} />
-
-        </div>
+            <input className={`${className}`} type={type} value={value} placeholder={placeholder} onChange={onChange} />
     );
 }
 

@@ -1,9 +1,14 @@
 html, body {
+    background-image:linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.5)), url('../numbers.jpg'); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat;
     margin: 0;
     padding: 0;
-    font-family: "Bradley Hand", "cursive";
+    font-family: "Bradley Hand", cursive;
     width: 100%;
     height: 100%;
+    
 }
 
 #root {
