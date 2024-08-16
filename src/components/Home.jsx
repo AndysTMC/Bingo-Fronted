@@ -10,10 +10,12 @@ const ENDPOINT = 'ws://localhost:3000';
 const Home = () => {
 
     const [state , setState] = React.useState("home");
+    const [playerName, setPlayerName] = React.useState('');
     const [socket, setSocket] = React.useState(null);
     const [roomCode, setRoomCode] = React.useState('@#$%$^');
     const [gameStart, setGameStart] = React.useState(false);
     const [isMyTurn, setIsMyTurn] = React.useState(false);
+    const [arrangement, setArrangement] = React.useState({});
 
 
     const handleJoinRoom = () => {
@@ -21,9 +23,7 @@ const Home = () => {
     }
     
     const handleCreateRoom = () => {
-        socket.emit('CreateRoom');
-        console.log('Create Room client');
-        
+        socket.emit('CreateRoom', {playerName});
         setState("create");
     }
 
@@ -42,10 +42,14 @@ const Home = () => {
     React.useEffect(()=>{
         const socket = io(ENDPOINT);
         setSocket(socket);
-        console.log('Socket Created');
         
         socket.on('RoomCode', (roomCode) => {
             setRoomCode(roomCode);
+        });
+
+        socket.on('PlayerData', ({turn, arrangement}) => {
+            setIsMyTurn(turn);
+            setArrangement(arrangement);
         });
 
         socket.on('GameStart', () => {
