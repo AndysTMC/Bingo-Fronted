@@ -74,6 +74,20 @@
     
 }
 
+.divhomebutton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.homebutton
+{
+    color: black;
+    font-size: 45px;
+    padding: 12px;
+}
+
+
 
 
 @media (max-width: 480px) {
@@ -97,6 +111,18 @@
         margin: 0%;
         padding: 0%;
     }
+    .sub-title {
+        font-size: 20px;
+        font-weight: 300;
+        font-family: Bradley Hand, cursive;
+    }
+    .homebutton
+    {
+        color: black;
+        font-size: 35px;
+        padding: 10px;
+    }
+    
 }
 
 @media (min-width: 481px) and (max-width: 768px) {

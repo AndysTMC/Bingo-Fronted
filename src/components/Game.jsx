@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from "react";
-import io from 'socket.io-client';
-import qs from 'qs';
+import { useLocation } from "react-router-dom";
+import { useSocket } from "./Contexts/SocketProvider";
 
 import './Game.css'; 
 
 const Game = () => {
-  const socket = io(); 
-
+  const socket = useSocket(); 
+  const location = useLocation();
   const [gameSet, setGameSet] = useState(new Set());
   const [turn, setTurn] = useState(false);
   const [gameEnd, setGameEnd] = useState(false);
   const [roomCode, setRoomCode] = useState(""); //qs.parse(window.location.search, { ignoreQueryPrefix: true }).roomCode    
-
+  React.useEffect(() => {
+    setRoomCode(location.state.roomCode);
+    setTurn(location.state.isMyTurn);
+    setGameSet(new Set(location.state.gameSet));
+  }, []);
   const generateRandomBoard = () => {
     const numbers = Array(25).fill(null).map((_, index) => index + 1);
     for (let i = numbers.length - 1; i > 0; i--) {

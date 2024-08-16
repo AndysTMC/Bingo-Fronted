@@ -1,8 +1,8 @@
 import React from 'react';
 import './Button.css';
-function Button({ id, name , onClick }) {
+function Button({ id, name , onClick, className = "btn" }) {
   return (
-    <button className = "btn" id={id} onClick={onClick}>
+    <button className = {className} id={id} onClick={onClick}>
       {name}
     </button>
   );
