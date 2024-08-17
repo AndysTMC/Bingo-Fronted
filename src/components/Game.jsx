@@ -1,51 +1,105 @@
 import React, { useState, useEffect } from "react";
-import io from 'socket.io-client';
-import qs from 'qs';
-
-import './Game.css'; 
+import { useLocation, useNavigate } from "react-router-dom";
+import { useSocket } from "./Contexts/SocketProvider";
+import "./Game.css";
 
 const Game = () => {
-  const socket = io(); 
-
-  const [gameSet, setGameSet] = useState(new Set());
+  const socket = useSocket();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [gameSet, setGameSet] = useState(null);
   const [turn, setTurn] = useState(false);
   const [gameEnd, setGameEnd] = useState(false);
-  const [roomCode, setRoomCode] = useState(""); //qs.parse(window.location.search, { ignoreQueryPrefix: true }).roomCode    
+  const [roomCode, setRoomCode] = useState("");
+  const [board, setBoard] = useState(null);
 
-  const   generateRandomBoard = () => {
-    const numbers = Array(25).fill(null).map((_, index) => index + 1);
-    for (let i = numbers.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+  const generateBoard = (arrangement) => {
+    const board = Array(5)
+      .fill()
+      .map(() => Array(5).fill(0));
+
+    for (const [key, value] of Object.entries(arrangement)) {
+      const { x, y } = value;
+      board[x][y] = parseInt(key); // Place the key at the specified position
     }
-    return Array(5).fill(null).map((_, row) => numbers.slice(row * 5, (row + 1) * 5));
+
+    return board;
   };
 
-  const [board, setBoard] = useState(generateRandomBoard());
+  const handleSocketEvents = () => {
+    if (!socket) return;
+
+    socket.on("PlayerData", ({ turn }) => {
+      setTurn(turn);
+    });
+
+    socket.on("Update", ({ gameSet }) => {
+      setGameSet(new Set(gameSet));
+    });
+
+    socket.on("Winner", ({ winner }) => {
+      setGameEnd(true);
+      alert(`${winner} wins!`);
+    });
+
+    socket.on("Draw", () => {
+      setGameEnd(true);
+      alert("It's a draw!");
+    });
+
+    socket.on("OpponentLeft", () => {
+      setGameEnd(true);
+      alert("Opponent left the game!");
+    });
+
+    socket.on("RoomsCount", (count) => {
+      console.log(count);
+    });
+  };
 
   useEffect(() => {
-    socket.on('updateBoard', (data) => {
-      setBoard((prevBoard) => {
-        const updatedBoard = [...prevBoard];
-        updatedBoard[data.row][data.col] = data.value;
-        return updatedBoard;
-      });
-    });
-  }, [socket]);
+    if (!location.state) {
+      navigate("/", { replace: true });
+      return;
+    }
+
+    const { gameSet, isMyTurn, roomCode, arrangement } = location.state;
+    setGameSet(new Set(gameSet));
+    setTurn(isMyTurn);
+    setRoomCode(roomCode);
+    setBoard(generateBoard(arrangement));
+
+    handleSocketEvents();
+
+    // Cleanup socket listeners on component unmount
+    return () => {
+      if (socket) {
+        socket.off("PlayerData");
+        socket.off("Update");
+        socket.off("Winner");
+        socket.off("Draw");
+        socket.off("OpponentLeft");
+        socket.off("RoomsCount");
+      }
+    };
+  }, [location.state, socket]);
 
   const handleCellClick = (row, col) => {
     if (turn && !gameSet.has(board[row][col])) {
-      setGameSet((prevSet) => new Set([...prevSet, board[row][col]]));
-      socket.emit('cellClicked', { row, col, roomCode });
-      if (0) {/* bingo condition */
-        setGameEnd(true);
-        socket.emit('bingo', roomCode);
+      if (!socket.connected) {
+        console.log("Socket not connected");
+        return;
       }
+      socket.emit("Mark", { roomCode, number: board[row][col] });
     }
   };
 
+  if (!roomCode || !board || !gameSet) {
+    return <></>;
+  }
+
   return (
-    <div className="bingo-game"> {/* Added class for styling */}
+    <div className="bingo-game">
       <h1>Bingo</h1>
       <h2>Room Code: {roomCode}</h2>
       <div className="board">
@@ -54,7 +108,7 @@ const Game = () => {
             {row.map((cell, j) => (
               <div
                 key={`${i}-${j}`}
-                className={`cell ${gameSet.has(cell) ? 'marked' : ''}`} // Add styling for marked cells
+                className={`cell ${gameSet.has(cell) ? "marked" : ""}`}
                 onClick={() => handleCellClick(i, j)}
               >
                 {cell}

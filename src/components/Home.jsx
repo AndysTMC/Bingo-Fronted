@@ -21,7 +21,7 @@ const Home = () => {
     const [copied, setCopied] = React.useState(false);
     const navigate = useNavigate();
 
-
+    console.log(socket)
     const handleHome = () => {
         if (state === "create") {
             socket.emit("Disconnect", { roomCode });
@@ -117,6 +117,7 @@ const Home = () => {
             });
         }
     }, [gameStart, navigate]);
+    
     function disconnectBeforeUnload(socket, roomCode) {
         socket.emit("Disconnect", { roomCode });
     }
