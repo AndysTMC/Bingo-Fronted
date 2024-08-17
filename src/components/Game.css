@@ -6,7 +6,7 @@
 
 .board {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
     border-collapse: collapse;
     gap: 10px;
     padding: 10px;
@@ -17,7 +17,7 @@
 
 .row {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
 }
 

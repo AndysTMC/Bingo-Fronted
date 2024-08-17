@@ -4,17 +4,20 @@ import io from 'socket.io-client';
 const ENDPOINT = "ws://10.1.187.235:3000";
 const SocketContext = createContext(null);
 
-export const useSocket = () => {
-    return useContext(SocketContext);
-};
+export const useSocket = () => useContext(SocketContext);
 
 export const SocketProvider = ({ children }) => {
     const [socket, setSocket] = useState(null);
 
     useEffect(() => {
-        const socketInstance = io(ENDPOINT);
+        // Initialize the socket connection once
+        const socketInstance = io(ENDPOINT, {
+            autoConnect: true,  // Ensure the socket tries to connect automatically
+            reconnection: true,  // Enable reconnection attempts
+        });
         setSocket(socketInstance);
 
+        // Cleanup on unmount
         return () => {
             socketInstance.disconnect();
         };
