@@ -70,8 +70,10 @@ const Home = () => {
     },[])
 
     React.useEffect(() => {
-        if (!socket) {
-            return;
+        if(!socket) { return; }
+        if (!socket.connected) {
+            socket.connect(); 
+            socket.emit("RegisterNewSocketId", { roomCode: gameData.roomCode, playerId: playerData.playerId });
         }
         socket.on("RoomCode", (roomCode) => {
             console.log("RoomCode Received")
