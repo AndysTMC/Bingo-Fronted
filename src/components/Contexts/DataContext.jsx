@@ -6,8 +6,8 @@ const DataContext = createContext();
 const DataProvider = ({ children }) => {
   // Function to parse game data from Local Storage
   const parseGameData = (data) => {
-    if (!data) return { roomCode: "", gameSet: new Set(),  };
-    
+    if (!data) return { roomCode: "", gameSet: new Set(), };
+
     const parsedData = JSON.parse(data);
     parsedData.gameSet = new Set(parsedData.gameSet); // Convert Array back to Set
     return parsedData;
@@ -34,12 +34,17 @@ const DataProvider = ({ children }) => {
     localStorage.setItem('gameData', JSON.stringify(gameDataToSave));
   }, [gameData]);
 
+  const resetData = () => {
+    setGameData({ roomCode: "", gameSet: new Set() });
+    setPlayerData({ playerId: "", arrangement: {}, turn: false });
+  }
+
   useEffect(() => {
     localStorage.setItem('playerData', JSON.stringify(playerData));
   }, [playerData]);
 
   return (
-    <DataContext.Provider value={{ gameData, setGameData, playerData, setPlayerData }}>
+    <DataContext.Provider value={{ gameData, setGameData, playerData, setPlayerData, resetData }}>
       {children}
     </DataContext.Provider>
   );

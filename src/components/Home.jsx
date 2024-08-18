@@ -11,7 +11,7 @@ import { DataContext } from "./Contexts/DataContext";
 
 const Home = () => {
     const socket = useSocket();
-    const { gameData, setGameData, playerData, setPlayerData } = useContext(DataContext);
+    const { gameData, setGameData, playerData, setPlayerData, resetData } = useContext(DataContext);
     const [state, setState] = React.useState("home");
     const [gameStart, setGameStart] = React.useState(false);
     const [copied, setCopied] = React.useState(false);
@@ -64,6 +64,10 @@ const Home = () => {
             document.body.removeChild(tA);
         }
     };
+
+    React.useEffect(() => {
+        resetData();
+    },[])
 
     React.useEffect(() => {
         if (!socket) {

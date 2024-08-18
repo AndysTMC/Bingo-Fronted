@@ -6,6 +6,7 @@ import "./Game.css";
 
 const Game = () => {
   const socket = useSocket();
+  const navigate = useNavigate();
   const { playerData, setPlayerData, gameData, setGameData } = useContext(DataContext);
 
   const [gameEnd, setGameEnd] = useState(false);
@@ -19,6 +20,7 @@ const Game = () => {
     return board;
   };
 
+
   const handleSocketEvents = () => {
     socket.on("PlayerData", ({ turn }) => {
       setPlayerData((prev) => ({ ...prev, turn }));
@@ -30,12 +32,14 @@ const Game = () => {
 
     socket.on("Winner", ({ winnerName, winnerId, ended }) => {
       setGameEnd(true);
-      alert(`${winnerName} (${winnerId}) ${ended ? "has" : "have"} won!`);
+      winnerId === playerData.playerId ? alert("You have won!") : alert("You have lost!");
+      navigate("/",{replace: true});
     });
 
     socket.on("Draw", () => {
       setGameEnd(true);
       alert("It's a draw!");
+      navigate("/",{replace: true});
     });
 
     socket.on("OpponentLeft", () => {
