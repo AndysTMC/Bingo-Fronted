@@ -1,3 +1,4 @@
+
 import React, { useContext } from "react";
 import { useSocket } from "./Contexts/SocketContext";
 import { useNavigate } from "react-router-dom";
@@ -40,7 +41,7 @@ const Home = () => {
         setState("join");
     };
     const handleCreateRoom = () => {
-        socket.emit("CreateRoom", { playerName: playerData.playerName });
+        socket.emit("CreateRoom", { playerName: playerData.playerName});
         setState("create");
     };
 
@@ -74,13 +75,10 @@ const Home = () => {
         });
 
         socket.on("PlayerData", ({ playerId, arrangement, turn}) => {
-            console.log("PlayerData Received", playerId, arrangement, turn);
             setPlayerData((prev) => ({ ...prev, playerId, arrangement, turn }));
         })
 
         socket.on("GameStart", ({ gameSet }) => {
-            console.log("GameStart Received", gameSet);
-            console.log(gameSet, playerData);
             setGameStart(true);
         });
 
