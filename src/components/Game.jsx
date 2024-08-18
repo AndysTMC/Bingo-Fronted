@@ -6,25 +6,23 @@ import "./Game.css";
 
 const Game = () => {
   const socket = useSocket();
-  const navigate = useNavigate();
-  const { playerData, gameData, setGameData } = useContext(DataContext);
+  const { playerData, setPlayerData, gameData, setGameData } = useContext(DataContext);
 
   const [gameEnd, setGameEnd] = useState(false);
   const [board, setBoard] = useState(null);
   
   const generateBoard = (arrangement) => {
     const board = Array(5).fill().map(() => Array(5).fill(0));
-    for (const [val, pos] of Object.entries(arrangement)) { board[pos['x']][pos['y']] = parseInt(key); }
+    for (const [val, pos] of Object.entries(arrangement)) { board[pos['x']][pos['y']] = parseInt(val); }
     return board;
   };
 
   const handleSocketEvents = () => {
-    if (!socket) return;
-    
-    socket.on("PlayerData", ({ turn }) => {
-      setGameData((prev) => ({ ...prev, turn }));
-    });
 
+    socket.on("PlayerData", ({ turn }) => {
+      setPlayerData((prev) => ({ ...prev, turn }));
+    })
+  
     socket.on("Update", ({ gameSet }) => {
       setGameData((prev) => ({ ...prev, gameSet: new Set(gameSet) }));
     });
@@ -51,7 +49,10 @@ const Game = () => {
 
   useEffect(() => {
     if (!socket) return;
-    if (socket.connected == false) { socket.connect(); }
+    if (socket.connected == false) {
+      socket.connect(); 
+      socket.emit("RegisterNewSocketId", { roomCode: gameData.roomCode, playerId: playerData.playerId });
+    }
     handleSocketEvents();
     return () => {
       if (socket) {
@@ -59,18 +60,23 @@ const Game = () => {
         socket.off("Draw"); socket.off("OpponentLeft");socket.off("RoomsCount");
       }
     };
-  }, [ socket]);
+  }, [socket]);
+
+  useEffect(() => {
+    if (!playerData.arrangement) return;
+    setBoard(generateBoard(playerData.arrangement));
+  }, [gameData.arrangement]);
 
   const handleCellClick = (row, col) => {
-    if (gameData.turn && !gameData.gameSet.has(board[row][col])) {
+    if (playerData.turn && !gameData.gameSet.has(board[row][col])) {
+      // socket.emit("RegisterNewSocketId", { roomCode: gameData.roomCode, playerId: playerData.playerId });
       socket.emit("Mark", { roomCode: gameData.roomCode, number: board[row][col] });
     }
   };
 
-  if (!gameData.roomCode || !board || !gameData.gameSet) {
+  if (!gameData.roomCode || !board) {
     return <></>;
   }
-
   return (
     <div className="bingo-game">
       <h1>Bingo</h1>
@@ -92,8 +98,8 @@ const Game = () => {
       </div>
       <div className="game-status">
         <h3>Game Status</h3>
-        <div className={gameData.turn ? "status turn" : "status"}>
-          {gameEnd ? "Game Over" : turn ? "Your Turn" : "Opponent's Turn"}
+        <div className={playerData.turn ? "status turn" : "status"}>
+          {gameEnd ? "Game Over" : playerData.turn ? "Your Turn" : "Opponent's Turn"}
         </div>
       </div>
     </div>

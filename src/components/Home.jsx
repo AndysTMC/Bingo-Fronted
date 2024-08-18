@@ -23,11 +23,14 @@ const Home = () => {
         setGameData((prev) => ({
             ...prev,
             roomCode: "",
-            gameSet: new Set(),
+            gameSet: new Set()
+        }));
+        setPlayerData((prev) => ({
+            ...prev, 
+            playerId: "" ,
             arrangement: {},
             turn: false,
         }));
-        setPlayerData((prev) => ({ ...prev, playerId: "" }));
         setCopied(false);
     }
     const handleJoin = () => {
@@ -66,16 +69,18 @@ const Home = () => {
             return;
         }
         socket.on("RoomCode", (roomCode) => {
+            console.log("RoomCode Received")
             setGameData((prev) => ({ ...prev, roomCode }));
         });
 
-        socket.on("PlayerData", ({ turn, arrangement, playerId }) => {
-            setGameData((prev) => ({ ...prev, turn, arrangement }));
-            setPlayerData((prev) => ({ ...prev, playerId }));
-        });
+        socket.on("PlayerData", ({ playerId, arrangement, turn}) => {
+            console.log("PlayerData Received", playerId, arrangement, turn);
+            setPlayerData((prev) => ({ ...prev, playerId, arrangement, turn }));
+        })
 
         socket.on("GameStart", ({ gameSet }) => {
-            setGameData((prev) => ({ ...prev, gameSet: new Set(gameSet) }));
+            console.log("GameStart Received", gameSet);
+            console.log(gameSet, playerData);
             setGameStart(true);
         });
 
@@ -103,6 +108,12 @@ const Home = () => {
         window.addEventListener("beforeunload", handleBeforeUnload);
         return () => { window.removeEventListener("beforeunload", handleBeforeUnload); };
     }, [socket, gameData.roomCode, state]);
+
+    React.useEffect(() => {
+        if (state === "home") {
+            setGameData((prev) => ({ ...prev, roomCode: "" }));
+        }
+    }, [state])
 
     return (
         <div className="main">
