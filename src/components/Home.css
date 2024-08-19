@@ -13,19 +13,23 @@
 
 .title-div {
     border: 12px solid;
+    border-style: dashed;
     padding: 0.2rem 6rem 0.9rem;
 }
-
+input,input::placeholder{
+    font-family: 'Press Start 2P', cursive;
+    
+}
 .sub-title {
     font-size: 40px;
     font-weight: 300;
-    font-family: Bradley Hand, cursive;
+    
 }
 
 .title {
     font-size: 0px;
     margin: 0%;
-    padding: 0%;
+    padding-top: 10px;
 }
 
 
@@ -38,7 +42,6 @@
 }
 
 .joinRoomInput{
-    font-family: inherit;
     min-width: 300px;
     text-align: center;
     width: 30%;
@@ -102,19 +105,23 @@
     }
 
     .title-div {
-        border: 12px solid;
-        padding: 0rem 1.5rem 0.3rem;
+        border : 12px solid black;
+        border-style: dashed;
+        padding: 0.2rem 3rem 0.9rem;
+    }
+
+    input,input::placeholder{
+        font-size: 15px;
     }
 
     .title {
         font-size: 40px;
         margin: 0%;
-        padding: 0%;
+        padding-top: 10px;
     }
     .sub-title {
         font-size: 20px;
         font-weight: 300;
-        font-family: Bradley Hand, cursive;
     }
     .homebutton
     {
@@ -135,16 +142,21 @@
         padding: 2rem;
 
     }
+    
+    input,input::placeholder{
+        font-size: 15px;
+    }
 
     .title-div {
-        border: 12px solid;
+        border : 12px dotted;
+        border-style: dashed;
         padding: 0.2rem 3rem 0.9rem;
     }
 
     .title {
         font-size: 80px;
         margin: 0%;
-        padding: 0%;
+        padding-top: 10px;
     }
 
 }

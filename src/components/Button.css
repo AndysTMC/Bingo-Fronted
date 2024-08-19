@@ -9,6 +9,7 @@
  */
 
 .btn {
+  font-family: inherit;
   align-self: center;
   background-color: #fff;
   background-image: none;
@@ -23,7 +24,6 @@
   color: #41403e;
   cursor: pointer;
   display: inline-block;
-  font-family: Bradley Hand, cursive;
   font-size: 3rem;
   line-height: 23px;
   outline: none;
@@ -51,7 +51,8 @@
 
 @media screen and (max-width: 480px) {
   .btn {
-    font-size: 2rem;
+    font-family: inherit;
+    font-size: 1.5rem;
     padding: 1rem;
   }
   

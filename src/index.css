@@ -5,6 +5,33 @@ html{
 }
 
 body {
+    -webkit-text-size-adjust: 100%; /* For Safari and Chrome */
+    -ms-text-size-adjust: 100%; /* For Internet Explorer */
+    text-size-adjust: 100%; /* For other browsers */
+}
+
+/* Disable text selection for all elements */
+body {
+    user-select: none; /* For most modern browsers */
+    -webkit-user-select: none; /* For Safari */
+    -moz-user-select: none; /* For Firefox */
+    -ms-user-select: none; /* For Internet Explorer/Edge */
+}
+
+/* If you want to disable selection for specific elements */
+.no-select {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+
+body {
+    
+    /* font-family: 'VT323'    ; */
+    font-family: 'Press Start 2P', cursive;
+    /* font-family: 'Bangers', cursive; */
     position: absolute;
     background-image: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.5)), url('../numbers.jpg');
     background-size: cover;
@@ -12,7 +39,6 @@ body {
     background-repeat: no-repeat;
     margin: 0;
     padding: 0;
-    font-family: "Bradley Hand", cursive;
     width: 100%;
     height: 100vh;
 
@@ -37,7 +63,12 @@ body {
         background-repeat: no-repeat;
         margin: 0;
         padding: 0;
-        font-family: "Bradley Hand", cursive;
+        /* font-family: 'VT323', monospace; */
+        font-family: 'Press Start 2P', cursive;
+        /* font-family: 'Bangers', cursive; */
+        /* font-family: 'Audiowide', cursive; */
+        /* font-family: 'Monoton', cursive; */
+        /* font-family: 'Aldrich', sans-serif; */
         width: 100%;
         height: 90vh;
     }

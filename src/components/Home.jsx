@@ -16,6 +16,34 @@ const Home = () => {
     const [gameStart, setGameStart] = React.useState(false);
     const [copied, setCopied] = React.useState(false);
     const navigate = useNavigate();
+        
+    document.addEventListener('keyup', function(event) {
+        // Prevent the default action for the keyup event if Ctrl is pressed
+        if (event.ctrlKey) {
+            event.preventDefault();
+        }
+    });
+    
+    window.addEventListener('keydown', function(event) {
+        if (event.ctrlKey && (event.key === '+' || event.key === '-' || event.key === '0')) {
+            event.preventDefault();
+        }
+    });
+    
+    window.addEventListener('wheel', function(event) {
+        if (event.ctrlKey) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+    
+
+    document.addEventListener('selectstart', function(event) {
+        event.preventDefault();
+        return false;
+    });
+    
+
+
     const handleHome = () => {
         if (state === "create") {
             socket.emit("Disconnect", { roomCode: gameData.roomCode });
@@ -46,10 +74,10 @@ const Home = () => {
     };
 
     const handleInput = (e) => {
-        if (e.target.value.length > 16) {
+        if (e.target.value.length > 6) {
             return;
         }
-        setGameData((prev) => ({ ...prev, roomCode: e.target.value }));
+        setGameData((prev) => ({ ...prev, roomCode: (e.target.value).toLowerCase() }));
     };
 
     const handleCopy = () => {

@@ -11,7 +11,7 @@ const Game = () => {
 
   const [gameEnd, setGameEnd] = useState(false);
   const [board, setBoard] = useState(null);
-  
+
   const generateBoard = (arrangement) => {
     const board = Array(5).fill().map(() => Array(5).fill(0));
     for (const [val, pos] of Object.entries(arrangement)) {
@@ -21,11 +21,25 @@ const Game = () => {
   };
 
 
+  document.addEventListener('wheel', function (event) {
+    if (event.ctrlKey) {
+      event.preventDefault();
+    }
+  }, { passive: false });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.ctrlKey && (event.key === '+' || event.key === '-' || event.key === '0')) {
+      event.preventDefault();
+    }
+  });
+
+
+
   const handleSocketEvents = () => {
     socket.on("PlayerData", ({ turn }) => {
       setPlayerData((prev) => ({ ...prev, turn }));
     });
-  
+
     socket.on("Update", ({ gameSet }) => {
       setGameData((prev) => ({ ...prev, gameSet: new Set(gameSet) }));
     });
@@ -33,13 +47,13 @@ const Game = () => {
     socket.on("Winner", ({ winnerName, winnerId, ended }) => {
       setGameEnd(true);
       winnerId === playerData.playerId ? alert("You have won!") : alert("You have lost!");
-      navigate("/",{replace: true});
+      navigate("/", { replace: true });
     });
 
     socket.on("Draw", () => {
       setGameEnd(true);
       alert("It's a draw!");
-      navigate("/",{replace: true});
+      navigate("/", { replace: true });
     });
 
     socket.on("OpponentLeft", () => {
@@ -55,7 +69,7 @@ const Game = () => {
   useEffect(() => {
     if (!socket) return;
     if (socket.connected === false) {
-      socket.connect(); 
+      socket.connect();
       socket.emit("RegisterNewSocketId", { roomCode: gameData.roomCode, playerId: playerData.playerId });
     }
     handleSocketEvents();
@@ -85,7 +99,7 @@ const Game = () => {
   if (!gameData.roomCode || !board) {
     return <></>;
   }
-  
+
   return (
     <div className="bingo-game">
       <h1>Bingo</h1>
@@ -105,7 +119,7 @@ const Game = () => {
         ))}
       </div>
       <div className="game-status">
-        <h3>Game Status</h3>
+        <h3 className="GameStatus">Game Status</h3>
         <div className={playerData.turn ? "status turn" : "status"}>
           {gameEnd ? "Game Over" : playerData.turn ? "Your Turn" : "Opponent's Turn"}
         </div>
