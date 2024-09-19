@@ -93,7 +93,7 @@ input,input::placeholder{
 
 
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
     .title-subheading {
         display: flex;
         justify-content: center;
@@ -132,7 +132,7 @@ input,input::placeholder{
     
 }
 
-@media (min-width: 481px) and (max-width: 768px) {
+@media (min-width: 601px) and (max-width: 800px) {
     .title-subheading {
         display: flex;
         justify-content: center;
@@ -161,7 +161,7 @@ input,input::placeholder{
 
 }
 
-@media (min-width: 769px) and (max-width: 1024px) {
+@media (min-width: 801px) and (max-width: 1024px) {
     .title {
         font-size: 80px;
     }
@@ -171,6 +171,4 @@ input,input::placeholder{
     .title {
         font-size:100px;
     }
-
-    
 }

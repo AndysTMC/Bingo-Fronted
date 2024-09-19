@@ -9,6 +9,7 @@
  */
 
 .btn {
+  min-height: max-content;
   font-family: inherit;
   align-self: center;
   background-color: #fff;
@@ -25,7 +26,6 @@
   cursor: pointer;
   display: inline-block;
   font-size: 3rem;
-  line-height: 23px;
   outline: none;
   padding: 1.5rem;
   text-decoration: none;
@@ -49,7 +49,7 @@
 }
 
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 600px) {
   .btn {
     font-family: inherit;
     font-size: 1.5rem;
