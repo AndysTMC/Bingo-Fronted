@@ -62,7 +62,9 @@ const Game = () => {
     socket.on("OpponentLeft", () => {
       setGameEnd(true);
       alert("Opponent left the game!");
-      navigate("/", { replace: true });
+      setTimeout(() => {
+        navigate("/", { replace: true });
+      }, 0);
     });
 
     socket.on("RoomsCount", (count) => {
@@ -112,11 +114,14 @@ const Game = () => {
   }
 
   useEffect(() => {
-    window.addEventListener("beforeunload", () => {
-      exitGame();
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      window.addEventListener("beforeunload", handleBeforeUnload);
     }
-    );
-  }, [socket, gameData.roomCode, exitGame]);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
   return (
     <div className="bingo-game no-scrollbar">
       <div className="divhomebutton exit-game">
