@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-block: 20px;
+    overflow-y: auto;
 }
 
 .board {
@@ -13,6 +15,11 @@
     border: 2px solid black;
     background-color: white;
     position: relative;
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
 }
 
 .row {
@@ -82,13 +89,16 @@
         align-items: center;
 
     }
-    .GameStatus{
-        font-size: 2rem;
+    .GameStatus, .status{
+        font-size: 1rem;
         font-weight: 1000;
+    }
+    h2 {
+        font-size: 1rem;
     }
 }
 
-@media screen and (max-height : 600px) {
+@media screen and (min-width : 480px) {
     .board {
         gap: 5px;
         padding: 5px;
@@ -112,9 +122,55 @@
 
     }
 
-    .GameStatus{
-        font-size: 3rem;
+    .GameStatus, .status{
+        font-size: 1.5rem;
         font-weight: 1000;
     }
+    h2 {
+        font-size: 1.5rem;
+    }
     
+}
+
+@media screen and (min-width : 700px) {
+    .board {
+        gap: 5px;
+        padding: 5px;
+        border: 2px solid black;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+    }
+
+    .cell {
+        cursor: pointer;
+        width: 45px;
+        height: 45px;
+        border: 1px solid black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .GameStatus, .status{
+        font-size: 2rem;
+        font-weight: 1000;
+    }
+    h2 {
+        font-size: 2rem;
+    }
+    
+}
+
+.exit-game {
+    position: fixed;
+    padding-right: 10px;
+    padding-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: end;
 }

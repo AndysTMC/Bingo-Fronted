@@ -2,6 +2,9 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSocket } from "./Contexts/SocketContext";
 import { DataContext } from "./Contexts/DataContext";
+import Button from "./Button";
+import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Game.css";
 
 const Game = () => {
@@ -64,6 +67,11 @@ const Game = () => {
     socket.on("RoomsCount", (count) => {
       console.log(count);
     });
+    socket.on("Disconnect", () => {
+      setGameEnd(true);
+      alert("Opponent left the game!");
+      navigate("/", { replace: true });
+    });
   };
 
   useEffect(() => {
@@ -96,14 +104,17 @@ const Game = () => {
     }
   };
   useEffect(() => {
-    if (!gameData.roomCode || !board) {
-      console.log("Redirecting to home");
+    console.log(gameData, board)
+    if (!gameData.roomCode) {
       navigate("/", { replace: true });
     }
-  }, [gameData.roomCode, board, navigate]);
+  }, [gameData.roomCode, navigate]);
 
   return (
-    <div className="bingo-game">
+    <div className="bingo-game no-scrollbar">
+      <div className="divhomebutton exit-game">
+          <Button name={<FontAwesomeIcon icon={faHouse} />} className="btn homebutton" onClick={() => navigate("/", {replace: true})} />
+      </div>
       <h1>Bingo</h1>
       <h2>Room Code: {gameData.roomCode}</h2>
       <div className="board">
