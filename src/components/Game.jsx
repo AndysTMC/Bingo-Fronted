@@ -97,7 +97,7 @@ const Game = () => {
   };
 
   if (!gameData.roomCode || !board) {
-    return <></>;
+    navigate("/", { replace: true });
   }
 
   return (
