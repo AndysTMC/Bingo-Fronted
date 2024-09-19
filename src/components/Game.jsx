@@ -110,10 +110,21 @@ const Game = () => {
     }
   }, [gameData.roomCode, navigate]);
 
+  const exitGame = () => {
+    socket.emit("Exit", { roomCode: gameData.roomCode });
+    navigate("/", { replace: true });
+  }
+
+  useEffect(() => {
+    window.addEventListener("beforeunload", () => {
+      socket.emit("Exit", { roomCode: gameData.roomCode });
+    }
+    );
+  }, [socket, gameData.roomCode]);
   return (
     <div className="bingo-game no-scrollbar">
       <div className="divhomebutton exit-game">
-          <Button name={<FontAwesomeIcon icon={faHouse} />} className="btn homebutton" onClick={() => navigate("/", {replace: true})} />
+          <Button name={<FontAwesomeIcon icon={faHouse} />} className="btn homebutton" onClick={exitGame} />
       </div>
       <h1>Bingo</h1>
       <h2>Room Code: {gameData.roomCode}</h2>
