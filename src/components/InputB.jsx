@@ -1,5 +1,5 @@
 import React from 'react';
-import './input.css';
+import './InputB.css';
 
 const InputB = ({ type, placeholder,className, value, onChange }) => {
     return (
