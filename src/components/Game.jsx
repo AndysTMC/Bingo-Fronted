@@ -62,15 +62,11 @@ const Game = () => {
     socket.on("OpponentLeft", () => {
       setGameEnd(true);
       alert("Opponent left the game!");
+      navigate("/", { replace: true });
     });
 
     socket.on("RoomsCount", (count) => {
       console.log(count);
-    });
-    socket.on("Disconnect", () => {
-      setGameEnd(true);
-      alert("Opponent left the game!");
-      navigate("/", { replace: true });
     });
   };
 
@@ -117,10 +113,10 @@ const Game = () => {
 
   useEffect(() => {
     window.addEventListener("beforeunload", () => {
-      socket.emit("Exit", { roomCode: gameData.roomCode });
+      exitGame();
     }
     );
-  }, [socket, gameData.roomCode]);
+  }, [socket, gameData.roomCode, exitGame]);
   return (
     <div className="bingo-game no-scrollbar">
       <div className="divhomebutton exit-game">
