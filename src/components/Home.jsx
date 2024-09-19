@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { useSocket } from "./Contexts/SocketContext";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
-import Input from "./Input";
+import InputB from "./InputB";
 import "./Home.css";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -171,7 +171,7 @@ const Home = () => {
 
             {state === "join" ? (
                 <div className="action-div">
-                    <Input
+                    <InputB
                         type="text"
                         className="joinRoomInput"
                         placeholder="Enter Room Code"
