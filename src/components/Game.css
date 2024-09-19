@@ -45,7 +45,8 @@ h2 {
 
 .status{
     background-color: white;
-    padding: 6px;
+    padding-block: 15px;
+    padding-inline: 25px;
     border: 2px solid black;
     color: black;
     border-radius: 10px;
@@ -64,6 +65,7 @@ h2 {
     font-weight: 1000;
     margin: 20px;
     padding: 0;
+    text-align: center;
 }
 
 @media screen and (max-width: 480px) {
