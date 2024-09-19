@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import io from 'socket.io-client';
 
-const ENDPOINT = "ws://10.1.187.235:3000";
+const ENDPOINT = "ws://10.1.180.61:3000";
 const SocketContext = createContext(null);
 
 export const useSocket = () => useContext(SocketContext);
