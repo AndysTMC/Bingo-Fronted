@@ -95,17 +95,19 @@ const Game = () => {
       socket.emit("Mark", { roomCode: gameData.roomCode, number: board[row][col] });
     }
   };
-
-  if (!gameData.roomCode || !board) {
-    navigate("/", { replace: true });
-  }
+  useEffect(() => {
+    if (!gameData.roomCode || !board) {
+      console.log("Redirecting to home");
+      navigate("/", { replace: true });
+    }
+  }, [gameData.roomCode, board, navigate]);
 
   return (
     <div className="bingo-game">
       <h1>Bingo</h1>
       <h2>Room Code: {gameData.roomCode}</h2>
       <div className="board">
-        {board.map((row, i) => (
+        {board && board.map((row, i) => (
           <div key={i} className="row">
             {row.map((cell, j) => (
               <div
